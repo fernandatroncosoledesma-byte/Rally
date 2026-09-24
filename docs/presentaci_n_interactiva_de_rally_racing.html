@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rally Racing - Dashboard Oficial 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Titillium Web & Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Titillium+Web:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rally: {
+                            deep: '#0c2b35',       // Azul Petróleo Profundo
+                            card: '#133c48',       // Azul Cian Oscuro para tarjetas
+                            border: '#1c4f5e',     // Bordes sutiles
+                            mint: '#00f0bd',       // Verde Menta Eléctrico del Afiche
+                            mintDark: '#00c89e',   // Mint hover
+                            light: '#ffffff',      // Blanco puro
+                            textMuted: '#92b8c3',  // Gris azulado para subtítulos
+                            charcoal: '#0a1d24'   // Texto muy oscuro en badges blancos
+                        }
+                    },
+                    fontFamily: {
+                        racing: ['Montserrat', 'sans-serif'],
+                        body: ['Titillium Web', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0c2b35;
+            color: #ffffff;
+            font-family: 'Titillium Web', sans-serif;
+        }
+
+        .font-racing {
+            font-family: 'Montserrat', sans-serif;
+            font-style: italic;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        /* Formas anguladas deportivas */
+        .skew-tag {
+            transform: skewX(-12deg);
+        }
+        .unskew {
+            transform: skewX(12deg);
+        }
+
+        /* Efectos Glow Menta */
+        .glow-mint {
+            box-shadow: 0 0 25px rgba(0, 240, 189, 0.25);
+        }
+        .glow-mint-sm {
+            box-shadow: 0 0 12px rgba(0, 240, 189, 0.3);
+        }
+
+        /* Borde superior resplandeciente */
+        .card-rally {
+            background-color: #133c48;
+            border: 1px solid #1c4f5e;
+            transition: all 0.3s ease;
+        }
+        .card-rally:hover {
+            border-color: #00f0bd;
+            transform: translateY(-2deg);
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0c2b35;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1c4f5e;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0bd;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-rally-mint selection:text-rally-deep">
+
+    <!-- NAVBAR FIXO -->
+    <header class="sticky top-0 z-50 bg-rally-deep/90 backdrop-blur-md border-b border-rally-border/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 bg-rally-mint text-rally-deep rounded-xl flex items-center justify-center font-racing text-2xl group-hover:scale-105 transition-transform skew-tag">
+                    <i class="fa-solid fa-gauge-high unskew"></i>
+                </div>
+                <div>
+                    <span class="font-racing text-2xl tracking-tight text-white block leading-none">
+                        RALLIES <span class="text-rally-mint">MOBIL</span>
+                    </span>
+                    <span class="text-[10px] font-bold text-rally-textMuted tracking-widest uppercase">CAMPEONATO 2026</span>
+                </div>
+            </a>
+
+            <!-- Menu Desktop -->
+            <nav class="hidden md:flex items-center gap-1 lg:gap-2">
+                <a href="#hero" class="px-3.5 py-2 rounded-lg text-xs font-racing tracking-wider hover:text-rally-mint hover:bg-rally-card transition-colors">INICIO</a>
+                <a href="#que-es" class="px-3.5 py-2 rounded-lg text-xs font-racing tracking-wider hover:text-rally-mint hover:bg-rally-card transition-colors">¿QUÉ ES?</a>
+                <a href="#pacenotes" class="px-3.5 py-2 rounded-lg text-xs font-racing tracking-wider hover:text-rally-mint hover:bg-rally-card transition-colors">PACENOTES</a>
+                <a href="#terrenos" class="px-3.5 py-2 rounded-lg text-xs font-racing tracking-wider hover:text-rally-mint hover:bg-rally-card transition-colors">TERRENOS</a>
+                <a href="#calendario" class="px-3.5 py-2 rounded-lg text-xs font-racing tracking-wider hover:text-rally-mint hover:bg-rally-card transition-colors">CALENDARIO</a>
+            </nav>
+
+            <!-- CTA Calendario -->
+            <a href="#calendario" class="hidden sm:inline-flex items-center gap-2 bg-rally-mint text-rally-deep font-racing text-xs px-5 py-3 rounded-xl glow-mint-sm hover:bg-rally-mintDark transition-all skew-tag">
+                <span class="unskew flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-days"></i> FECHAS 2026
+                </span>
+            </a>
+
+            <!-- Mobile menu button -->
+            <button onclick="toggleMobileNav()" class="md:hidden p-2.5 text-rally-mint bg-rally-card rounded-lg border border-rally-border">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile dropdown navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-rally-card border-b border-rally-border px-4 py-4 space-y-2">
+            <a href="#hero" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-lg text-sm font-racing text-white hover:bg-rally-deep">INICIO</a>
+            <a href="#que-es" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-lg text-sm font-racing text-white hover:bg-rally-deep">¿QUÉ ES EL RALLIES?</a>
+            <a href="#pacenotes" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-lg text-sm font-racing text-white hover:bg-rally-deep">SIMULADOR PACENOTES</a>
+            <a href="#terrenos" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-lg text-sm font-racing text-white hover:bg-rally-deep">TERRENOS & NEUMÁTICOS</a>
+            <a href="#calendario" onclick="toggleMobileNav()" class="block px-3 py-2 rounded-lg text-sm font-racing text-white hover:bg-rally-deep">CALENDARIO 2026</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative pt-8 pb-16 md:py-24 overflow-hidden border-b border-rally-border/40">
+        <!-- Fondo con acentos resplandecientes -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-rally-mint/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Texto Principal -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <div class="inline-flex items-center gap-2 bg-rally-card border border-rally-mint/40 px-4 py-1.5 rounded-full skew-tag">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rally-mint animate-pulse unskew"></span>
+                        <span class="font-racing text-xs text-rally-mint unskew">TEMPORADA OFICIAL DE AUTOMOVILISMO</span>
+                    </div>
+
+                    <h1 class="font-racing text-4xl sm:text-6xl xl:text-7xl leading-none text-white tracking-tight">
+                        ENCIENDE TU <br>
+                        <span class="text-rally-mint drop-shadow-[0_0_20px_rgba(0,240,189,0.3)]">MODO RALLIES</span>
+                    </h1>
+
+                    <p class="text-rally-textMuted text-base sm:text-lg leading-relaxed max-w-2xl font-body">
+                        Siente la potencia del campeonato más exigente. Pilotos y copilotos al límite recorriendo rutas extremas de grava, barro y asfalto luchando contra el reloj en cada tramo cronometrado.
+                    </p>
+
+                    <!-- Botones de Acción -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#calendario" class="bg-rally-mint text-rally-deep font-racing text-sm px-7 py-4 rounded-xl glow-mint hover:bg-rally-mintDark transition-all skew-tag">
+                            <span class="unskew flex items-center gap-2">
+                                VER CALENDARIO 2026 <i class="fa-solid fa-arrow-right"></i>
+                            </span>
+                        </a>
+                        <a href="#pacenotes" class="bg-rally-card border border-rally-border hover:border-rally-mint text-white font-racing text-sm px-7 py-4 rounded-xl transition-all skew-tag">
+                            <span class="unskew flex items-center gap-2">
+                                <i class="fa-solid fa-headphones text-rally-mint"></i> PROBAR PACENOTES
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Métricas Rápidas -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-rally-border/60">
+                        <div>
+                            <span class="font-racing text-2xl sm:text-3xl text-rally-mint block">8 FECHAS</span>
+                            <span class="text-xs text-rally-textMuted font-body">Confirmadas 2026</span>
+                        </div>
+                        <div>
+                            <span class="font-racing text-2xl sm:text-3xl text-white block">+300 HP</span>
+                            <span class="text-xs text-rally-textMuted font-body">Autos Categoría RC2</span>
+                        </div>
+                        <div>
+                            <span class="font-racing text-2xl sm:text-3xl text-rally-mint block">WRC</span>
+                            <span class="text-xs text-rally-textMuted font-body">Chile en el Mundo</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Imagen Hero Principal -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative rounded-3xl overflow-hidden border-2 border-rally-mint/40 card-rally p-2">
+                        <div class="rounded-2xl overflow-hidden h-[340px] sm:h-[420px] relative bg-rally-deep">
+                            <img src="images/rally1.jpg" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x800/133c48/00f0bd?text=images/rally1.jpg';" 
+                                 alt="Rally Racing Car" 
+                                 class="w-full h-full object-cover">
+                            
+                            <div class="absolute top-4 left-4 bg-rally-deep/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-rally-border text-rally-mint text-xs font-mono">
+                                images/rally1.jpg
+                            </div>
+
+                            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-rally-deep via-rally-deep/60 to-transparent p-6 flex justify-between items-end">
+                                <div>
+                                    <span class="bg-rally-mint text-rally-deep font-racing text-[10px] px-2.5 py-1 rounded skew-tag inline-block mb-1">
+                                        <span class="unskew">RALLY1 / RC2</span>
+                                    </span>
+                                    <h3 class="font-racing text-xl text-white">TRACCIÓN INTEGRAL</h3>
+                                </div>
+                                <span class="text-rally-mint font-racing text-lg"><i class="fa-solid fa-bolt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 1: ¿QUÉ ES EL RALLIES? -->
+    <section id="que-es" class="py-16 md:py-24 border-b border-rally-border/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 bg-rally-card border border-rally-border px-4 py-1.5 rounded-full skew-tag mb-3">
+                    <span class="font-racing text-xs text-rally-mint unskew">DISCIPLINA DE MÁXIMA EXIGENCIA</span>
+                </div>
+                <h2 class="font-racing text-3xl sm:text-5xl text-white">
+                    ¿CÓMO FUNCIONA EL <span class="text-rally-mint">RALLIES?</span>
+                </h2>
+                <p class="text-rally-textMuted text-sm sm:text-base mt-3">
+                    A diferencia de las carreras en circuito cerrado, el rally se disputa en caminos públicos cerrados al tráfico divididos en Tramos Cronometrados (Pruebas Especiales) y Enlaces.
+                </p>
+            </div>
+
+            <!-- Grid de Pilares de Competición -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Tarjeta 1 -->
+                <div class="card-rally rounded-2xl p-6 relative flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rally-mint text-rally-deep font-racing text-xl flex items-center justify-center mb-6 skew-tag">
+                            <i class="fa-solid fa-stopwatch unskew"></i>
+                        </div>
+                        <h3 class="font-racing text-xl text-white mb-2">TRAMOS CRONOMETRADOS</h3>
+                        <p class="text-rally-textMuted text-xs leading-relaxed">
+                            Salidas individuales cada 1 o 2 minutos. El vencedor es quien acumula el menor tiempo total tras recorrer todas las etapas.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-rally-border/50 text-right">
+                        <span class="font-racing text-[11px] text-rally-mint">CONTRA EL RELOJ</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2 -->
+                <div class="card-rally rounded-2xl p-6 relative flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rally-mint text-rally-deep font-racing text-xl flex items-center justify-center mb-6 skew-tag">
+                            <i class="fa-solid fa-user-ninja unskew"></i>
+                        </div>
+                        <h3 class="font-racing text-xl text-white mb-2">TRABAJO EN EQUIPO</h3>
+                        <p class="text-rally-textMuted text-xs leading-relaxed">
+                            Simbiosis total entre Piloto (volante y pedales) y Copiloto (hoja de ruta y dictado de curvas con anticipación exacta).
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-rally-border/50 text-right">
+                        <span class="font-racing text-[11px] text-rally-mint">DUPLA PERFECTA</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3 -->
+                <div class="card-rally rounded-2xl p-6 relative flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rally-mint text-rally-deep font-racing text-xl flex items-center justify-center mb-6 skew-tag">
+                            <i class="fa-solid fa-wrench unskew"></i>
+                        </div>
+                        <h3 class="font-racing text-xl text-white mb-2">PARQUE DE ASISTENCIA</h3>
+                        <p class="text-rally-textMuted text-xs leading-relaxed">
+                            Mecánicos reparan daños y cambian reglajes en tiempos récord de 15, 30 o 45 minutos entre bucles de tramos.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-rally-border/50 text-right">
+                        <span class="font-racing text-[11px] text-rally-mint">MECÁNICA EXPRESS</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4 -->
+                <div class="card-rally rounded-2xl p-6 relative flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rally-mint text-rally-deep font-racing text-xl flex items-center justify-center mb-6 skew-tag">
+                            <i class="fa-solid fa-trophy unskew"></i>
+                        </div>
+                        <h3 class="font-racing text-xl text-white mb-2">POWER STAGE</h3>
+                        <p class="text-rally-textMuted text-xs leading-relaxed">
+                            Última especial de cada rally que otorga puntos de bonificación extra en el campeonato a los 5 pilotos más rápidos.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-rally-border/50 text-right">
+                        <span class="font-racing text-[11px] text-rally-mint">PUNTOS EXTRA</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Banner con Imagen 2 -->
+            <div class="mt-12 card-rally rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center gap-8">
+                <div class="w-full lg:w-1/2 h-64 md:h-80 rounded-2xl overflow-hidden relative bg-rally-deep border border-rally-border">
+                    <img src="images/rally2.jpg" 
+                         onerror="this.onerror=null; this.src='https://placehold.co/800x600/133c48/ffffff?text=images/rally2.jpg';" 
+                         alt="Rally WRC Action" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute bottom-3 left-3 bg-rally-deep/90 backdrop-blur-md px-3 py-1 rounded text-rally-mint text-xs font-mono">
+                        images/rally2.jpg
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 space-y-4">
+                    <span class="font-racing text-xs text-rally-mint tracking-widest uppercase">CATEGORÍAS DE COMPETENCIA</span>
+                    <h3 class="font-racing text-2xl sm:text-4xl text-white">
+                        TECNOLOGÍA Y <span class="text-rally-mint">POTENCIA</span>
+                    </h3>
+                    <p class="text-rally-textMuted text-sm leading-relaxed">
+                        En Chile y el mundo destacan las categorías **RC2 / Rally2** (tracción integral, motor 1.6 turbo, cajas secuenciales de 5 marchas) y las categorías **Rally4 / RC4** (tracción delantera de alta agilidad).
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <div class="bg-rally-deep p-3.5 rounded-xl border border-rally-border">
+                            <span class="font-racing text-lg text-white block">RC2 (4WD)</span>
+                            <span class="text-xs text-rally-textMuted">Rally de nivel mundial</span>
+                        </div>
+                        <div class="bg-rally-deep p-3.5 rounded-xl border border-rally-border">
+                            <span class="font-racing text-lg text-rally-mint block">RC4 (2WD)</span>
+                            <span class="text-xs text-rally-textMuted">Tracción delantera pro</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN 2: SIMULADOR DE PACENOTES -->
+    <section id="pacenotes" class="py-16 md:py-24 border-b border-rally-border/40 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-6 space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-rally-card border border-rally-border px-4 py-1.5 rounded-full skew-tag">
+                        <i class="fa-solid fa-headphones text-rally-mint unskew"></i>
+                        <span class="font-racing text-xs text-rally-mint unskew">SIMULADOR INTERACTIVO</span>
+                    </div>
+
+                    <h2 class="font-racing text-3xl sm:text-5xl text-white leading-none">
+                        EL LENGUAJE DEL <span class="text-rally-mint">COPILOTO</span>
+                    </h2>
+
+                    <p class="text-rally-textMuted text-sm sm:text-base leading-relaxed">
+                        A más de 160 km/h en caminos estrechos, el piloto no ve lo que hay detrás de una rasante. El copiloto le dicta "las notas" numeradas del 1 (curva muy lenta) al 6 (curva casi recta a fondo).
+                    </p>
+
+                    <!-- Selector de Notas del Simulador -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+                        <button onclick="playPacenote('izq3')" id="pace-izq3" class="pace-btn p-3 rounded-xl bg-rally-mint text-rally-deep font-racing text-xs text-center border-2 border-rally-mint hover:scale-105 transition-all">
+                            IZQ 3 CORR
+                        </button>
+                        <button onclick="playPacenote('der6')" id="pace-der6" class="pace-btn p-3 rounded-xl bg-rally-card text-white hover:border-rally-mint font-racing text-xs text-center border border-rally-border hover:scale-105 transition-all">
+                            DER 6 FONDO
+                        </button>
+                        <button onclick="playPacenote('salto')" id="pace-salto" class="pace-btn p-3 rounded-xl bg-rally-card text-white hover:border-rally-mint font-racing text-xs text-center border border-rally-border hover:scale-105 transition-all">
+                            SALTO CENTRO
+                        </button>
+                        <button onclick="playPacenote('horquilla')" id="pace-horquilla" class="pace-btn p-3 rounded-xl bg-rally-card text-white hover:border-rally-mint font-racing text-xs text-center border border-rally-border hover:scale-105 transition-all">
+                            HORQUILLA DER
+                        </button>
+                    </div>
+
+                    <!-- Ficha del Simulador -->
+                    <div class="p-6 rounded-2xl bg-white text-rally-charcoal shadow-2xl relative overflow-hidden">
+                        <div class="flex items-center gap-4">
+                            <div id="sim-badge" class="w-16 h-16 rounded-xl bg-rally-deep text-rally-mint font-racing text-3xl flex items-center justify-center shrink-0 skew-tag">
+                                <span class="unskew">3</span>
+                            </div>
+                            <div>
+                                <span id="sim-subtitle" class="font-racing text-xs text-rally-deep/70 block">NOTA SELECCIONADA</span>
+                                <h4 id="sim-title" class="font-racing text-xl text-rally-deep leading-tight">IZQUIERDA 3 CORRESPONDE</h4>
+                                <p id="sim-desc" class="text-xs font-body text-gray-700 mt-1">
+                                    Curva de ángulo medio-cerrado en 3ª marcha. "Corresponde" indica que la curva mantiene su radio constante sin engañar.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen 3 con Estilo del Copiloto -->
+                <div class="lg:col-span-6">
+                    <div class="card-rally p-2 rounded-3xl border-2 border-rally-mint/40">
+                        <div class="h-[320px] sm:h-[400px] rounded-2xl overflow-hidden relative bg-rally-deep">
+                            <img src="images/rally3.jpg" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x600/133c48/00f0bd?text=images/rally3.jpg';" 
+                                 alt="Copiloto de Rally" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute bottom-3 right-3 bg-rally-deep/90 backdrop-blur-md px-3 py-1 rounded text-rally-mint text-xs font-mono">
+                                images/rally3.jpg
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN 3: TERRENOS Y NEUMÁTICOS -->
+    <section id="terrenos" class="py-16 md:py-24 border-b border-rally-border/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <div class="inline-flex items-center gap-2 bg-rally-card border border-rally-border px-4 py-1.5 rounded-full skew-tag mb-3">
+                    <i class="fa-solid fa-mountain text-rally-mint unskew"></i>
+                    <span class="font-racing text-xs text-rally-mint unskew">ADAPTABILIDAD TOTAL</span>
+                </div>
+                <h2 class="font-racing text-3xl sm:text-5xl text-white">
+                    SUPERFICIES Y <span class="text-rally-mint">DESAFÍOS</span>
+                </h2>
+                <p class="text-rally-textMuted text-sm sm:text-base mt-2">
+                    Cada fecha presenta condiciones únicas. Selecciona una superficie para conocer la puesta a punto requerida.
+                </p>
+            </div>
+
+            <!-- Botones Selector de Terreno -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button onclick="setTerrain('gravel')" id="btn-gravel" class="terrain-btn px-6 py-3 rounded-xl font-racing text-xs bg-rally-mint text-rally-deep glow-mint-sm skew-tag">
+                    <span class="unskew flex items-center gap-2"><i class="fa-solid fa-tree"></i> TIERRA / GRAVILLA</span>
+                </button>
+                <button onclick="setTerrain('tarmac')" id="btn-tarmac" class="terrain-btn px-6 py-3 rounded-xl font-racing text-xs bg-rally-card text-white border border-rally-border hover:border-rally-mint skew-tag">
+                    <span class="unskew flex items-center gap-2"><i class="fa-solid fa-road"></i> ASFALTO</span>
+                </button>
+                <button onclick="setTerrain('mud')" id="btn-mud" class="terrain-btn px-6 py-3 rounded-xl font-racing text-xs bg-rally-card text-white border border-rally-border hover:border-rally-mint skew-tag">
+                    <span class="unskew flex items-center gap-2"><i class="fa-solid fa-cloud-rain"></i> BARRO / LLUVIA</span>
+                </button>
+                <button onclick="setTerrain('snow')" id="btn-snow" class="terrain-btn px-6 py-3 rounded-xl font-racing text-xs bg-rally-card text-white border border-rally-border hover:border-rally-mint skew-tag">
+                    <span class="unskew flex items-center gap-2"><i class="fa-solid fa-snowflake"></i> NIEVE / HIELO</span>
+                </button>
+            </div>
+
+            <!-- Panel de Contenido del Terreno -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <div class="lg:col-span-7 card-rally rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <span id="terrain-badge" class="bg-rally-mint text-rally-deep font-racing text-xs px-3 py-1 rounded skew-tag">
+                            <span class="unskew">TRACCIÓN: 65%</span>
+                        </span>
+                        <span id="terrain-tyre" class="text-xs font-racing text-rally-mint">NEUMÁTICOS: TACO PROFUNDO</span>
+                    </div>
+
+                    <h3 id="terrain-title" class="font-racing text-2xl sm:text-4xl text-white">
+                        GRAVILLA Y RUTAS FORESTALES
+                    </h3>
+
+                    <p id="terrain-desc" class="text-rally-textMuted text-sm sm:text-base leading-relaxed">
+                        Es el terreno rey del campeonato chileno. Los tramos en el Biobío y Curicó exigen conducir de lado, aprovechando la tracción a las cuatro ruedas para catapultar el auto a la salida de cada curva.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-rally-border">
+                        <div>
+                            <span class="text-[10px] font-racing text-rally-mint uppercase block">SUSPENSIÓN</span>
+                            <span id="terrain-susp" class="font-racing text-sm text-white">Alta y suave (Recorrido largo)</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-racing text-rally-mint uppercase block">ESTRATEGIA</span>
+                            <span id="terrain-strat" class="font-racing text-sm text-white">Derrape controlado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen 4 con Imagen de Terrenos -->
+                <div class="lg:col-span-5">
+                    <div class="card-rally p-2 rounded-3xl">
+                        <div class="h-[280px] sm:h-[340px] rounded-2xl overflow-hidden relative bg-rally-deep">
+                            <img src="images/rally4.jpg" 
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x600/133c48/ffffff?text=images/rally4.jpg';" 
+                                 alt="Rally Terrain Action" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute bottom-3 left-3 bg-rally-deep/90 backdrop-blur-md px-3 py-1 rounded text-rally-mint text-xs font-mono">
+                                images/rally4.jpg
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN 4: CALENDARIO OFICIAL 2026 (Basado en el Afiche) -->
+    <section id="calendario" class="py-16 md:py-24 border-b border-rally-border/40 relative">
+        <!-- Glow Menta de Fondo -->
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-rally-mint/10 blur-[140px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Encabezado Calendario -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-rally-mint text-rally-deep font-racing text-xs px-3.5 py-1.5 rounded-md skew-tag mb-3">
+                        <span class="unskew flex items-center gap-1.5"><i class="fa-solid fa-flag-checkered"></i> TEMPORADA CONFIRMADA</span>
+                    </div>
+                    <h2 class="font-racing text-3xl sm:text-5xl text-white leading-none">
+                        CALENDARIO <span class="text-rally-mint">2026</span>
+                    </h2>
+                </div>
+                <div class="bg-rally-card border border-rally-mint/50 px-5 py-3 rounded-2xl flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-rally-mint animate-ping"></div>
+                    <span class="font-racing text-xs text-white">8 GRANDES FECHAS EN CHILE</span>
+                </div>
+            </div>
+
+            <!-- Grilla Estilizada de las 8 Fechas del Afiche -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- Fecha 1 -->
+                <div class="bg-white text-rally-charcoal rounded-2xl p-4 shadow-xl hover:scale-[1.02] transition-transform relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="w-9 h-9 rounded-xl bg-rally-deep text-rally-mint font-racing text-sm flex items-center justify-center skew-tag">
+                            <span class="unskew">1</span>
+                        </span>
+                        <span class="font-racing text-xs text-rally-deep bg-rally-mint/30 px-2.5 py-1 rounded">MARZO</span>
+                    </div>
+                    <h4 class="font-racing text-xl text-rally-deep leading-none mb-1">CURICÓ</h4>
+                    <p class="text-[11px] font-bold text-gray-500 uppercase">13 – 15 MARZO</p>
+                    <div class="mt-4 pt-3 border-t border-gray-200 flex justify-between items-center text-[10px] font-bold text-gray-600">
+                        <span>REGIÓN DEL MAULE</span>
+                        <i class="fa-solid fa-chevron-right text-rally-deep"></i>
+                    </div>
+                </div>
+
+                <!-- Fecha 2 -->
+                <div class="bg-white text-rally-charcoal rounded-2xl p-4 shadow-xl hover:scale-[1.02] transition-transform relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="w-9 h-9 rounded-xl bg-rally-deep text-rally-mint font-racing text-sm flex items-center justify-center skew-tag">
+                            <span class="unskew">2</span>
+                        </span>
+                        <span class="font-racing text-xs text-rally-deep bg-rally-mint/30 px-2.5 py-1 rounded">ABRIL</span>
+                    </div>
+                    <h4 class="font-racing text-xl text-rally-deep leading-none mb-1">LOS ANDES</h4>
+                    <p class="text-[11px] font-bold text-gray-500 uppercase">10 – 12 ABRIL</p>
+                    <div class="mt-4 pt-3 border-t border-gray-200 flex justify-between items-center text-[10px] font-bold text-gray-600">
+                        <span>VALPARAÍSO</span>
+                        <i class="fa-solid fa-chevron-right text-rally-deep"></i>
+                    </div>
+                </div>
+
+                <!-- Fecha 3 -->
+                <div class="bg-white text-rally-charcoal rounded-2xl p-4 shadow-xl hover:scale-[1.02] transition-transform relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="w-9 h-9 rounded-xl bg-rally-deep text-rally-mint font-racing text-sm flex items-center justify-center skew-tag">
+                            <span class="unskew">3</span>
+                        </span>
+                        <span class="font-racing text-xs text-rally-deep bg-rally-mint/30 px-2.5 py-1 rounded">MAYO</span>
+                    </div>
+                    <h4 class="font-racing text-xl text-rally-deep leading-none mb-1">BIOBÍO ARAUCO</h4>
+                    <p class="text-[11px] font-bold text-gray-500 uppercase">15 – 17 MAYO</p>
+                    <div class="mt-4 pt-3 border-t border-gray-200 flex justify-between items-center text-[10px] font-bold text-gray-600">
+                        <span>REGIÓN DEL BIOBÍO</span>
+                        <i class="fa-solid fa-chevron-right text-rally-deep"></i>
+                    </div>
+                </div>
+
+                <!-- Fecha 4 -->
+                <div class="bg-white text-rally-charcoal rounded-2xl p-4 shadow-xl hover:scale-[1.02] transition-transform relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="w-9 h-9 rounded-xl bg-rally-deep text-rally-mint font-racing text-sm flex items-center justify-center skew-tag">
+                            <span class="unskew">4</span>
+                        </span>
+                        <span class="font-racing text-xs text-rally-deep bg-rally-mint/30 px-2.5 py-1 rounded">JUNIO</span>
+                    </div>
+                    <h4 class="font-racing text-xl text-rally-deep leading-none mb-1">NACIMIENTO NEGRETE</h4>
+                    <p class="text-[11px] font-bold text-gray-500 uppercase">19 – 21 JUNIO</p>
+                    <div class="mt-4 pt-3 border-t border-gray-200 flex justify-between items-center text-[10px] font-bold text-gray-600">
+                        <span>BIOBÍO INTERIOR</span>
+                        <i class="fa-solid fa-chevron-right text-rally-deep"></i>
+                    </div>
+                </div>
+
+                <!-- Fecha 5 -->
+                <div class="bg-white text-rally-charcoal rounded-2xl p-4 shadow-xl hover:scale-[1.02] transition-transform relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="w-9 h-9 rounded-xl bg-rally-deep text-rally-mint font-racing text-sm flex items-center justify-center skew-tag">
+                            <span class="unskew">5</span>
+                        </span>
+                        <span class="font-racing text-xs text-rally-deep bg-rally-mint/30 px-2.5 py-1 rounded">JULIO</span>
+                    </div>
+                    <h4 class="font-racing text-xl text-rally-deep leading-none mb-1">ATACAMA COPIAPÓ</h4>
+                    <p class="text-[11px] font-bold text-gray-500 uppercase">24 – 26 JULIO</p>
+                    <div class="mt-4 pt-3 border-t border-gray-200 flex justify-between items-center text-[10px] font-bold text-gray-600">
+                        <span>DESIERTO Y GRAVA</span>
+                        <i class="fa-solid fa-chevron-right text-rally-deep"></i>
+                    </div>
+                </div>
+
+                <!-- Fecha 6 WRC DESTACADA -->
+                <div class="bg-rally-mint text-rally-deep rounded-2xl p-4 shadow-2xl hover:scale-[1.04] transition-transform relative overflow-hidden border-2 border-white glow-mint">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="w-9 h-9 rounded-xl bg-rally-deep text-rally-mint font-racing text-sm flex items-center justify-center skew-tag">
+                            <span class="unskew">6</span>
+                        </span>
+                        <span class="font-racing text-xs bg-rally-deep text-white px-2.5 py-1 rounded">WRC MUNDIAL</span>
+                    </div>
+                    <h4 class="font-racing text-xl text-rally-deep leading-none mb-1">RALLIES CHILE BIOBÍO</h4>
+                    <p class="text-[11px] font-bold text-rally-deep/80 uppercase">10 – 13 SEPTIEMBRE</p>
+                    <div class="mt-4 pt-3 border-t border-rally-deep/20 flex justify-between items-center text-[10px] font-racing text-rally-deep">
+                        <span>MUNDIAL WRC</span>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+
+                <!-- Fecha 7 -->
+                <div class="bg-white text-rally-charcoal rounded-2xl p-4 shadow-xl hover:scale-[1.02] transition-transform relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="w-9 h-9 rounded-xl bg-rally-deep text-rally-mint font-racing text-sm flex items-center justify-center skew-tag">
+                            <span class="unskew">7</span>
+                        </span>
+                        <span class="font-racing text-xs text-rally-deep bg-rally-mint/30 px-2.5 py-1 rounded">NOVIEMBRE</span>
+                    </div>
+                    <h4 class="font-racing text-xl text-rally-deep leading-none mb-1">AYSÉN COYHAIQUE</h4>
+                    <p class="text-[11px] font-bold text-gray-500 uppercase">30 OCT – 1 NOV</p>
+                    <div class="mt-4 pt-3 border-t border-gray-200 flex justify-between items-center text-[10px] font-bold text-gray-600">
+                        <span>PATAGONIA</span>
+                        <i class="fa-solid fa-chevron-right text-rally-deep"></i>
+                    </div>
+                </div>
+
+                <!-- Fecha 8 -->
+                <div class="bg-white text-rally-charcoal rounded-2xl p-4 shadow-xl hover:scale-[1.02] transition-transform relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="w-9 h-9 rounded-xl bg-rally-deep text-rally-mint font-racing text-sm flex items-center justify-center skew-tag">
+                            <span class="unskew">8</span>
+                        </span>
+                        <span class="font-racing text-xs text-rally-deep bg-rally-mint/30 px-2.5 py-1 rounded">DICIEMBRE</span>
+                    </div>
+                    <h4 class="font-racing text-xl text-rally-deep leading-none mb-1">COQUIMBO LA SERENA</h4>
+                    <p class="text-[11px] font-bold text-gray-500 uppercase">3 – 6 DICIEMBRE</p>
+                    <div class="mt-4 pt-3 border-t border-gray-200 flex justify-between items-center text-[10px] font-bold text-gray-600">
+                        <span>GRAN FINALE</span>
+                        <i class="fa-solid fa-trophy text-rally-deep"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Banner con Imagen 5 y Slogan -->
+            <div class="mt-12 card-rally rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 rounded-2xl overflow-hidden shrink-0 border border-rally-mint">
+                        <img src="images/rally5.jpg" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/200x200/133c48/00f0bd?text=images/rally5.jpg';" 
+                             alt="Rally Finish" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h3 class="font-racing text-2xl text-white">
+                            ENCIENDE TU <span class="text-rally-mint">MODO RALLIES</span>
+                        </h3>
+                        <p class="text-xs text-rally-textMuted">Sigue de cerca los tiempos en vivo y la cobertura oficial.</p>
+                    </div>
+                </div>
+
+                <a href="#hero" class="bg-rally-mint text-rally-deep font-racing text-xs px-6 py-3.5 rounded-xl skew-tag hover:bg-rally-mintDark transition-all shrink-0">
+                    <span class="unskew flex items-center gap-2">
+                        VOLVER ARRIBA <i class="fa-solid fa-arrow-up"></i>
+                    </span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-rally-deep py-10 border-t border-rally-border/60 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-rally-mint text-rally-deep rounded-lg flex items-center justify-center font-racing text-lg skew-tag">
+                    <i class="fa-solid fa-flag-checkered unskew"></i>
+                </div>
+                <span class="font-racing text-lg text-white">RALLIES <span class="text-rally-mint">MOBIL 2026</span></span>
+            </div>
+
+            <p class="text-rally-textMuted text-center md:text-left">
+                Plataforma interactiva de presentación sobre el Campeonato de Rally Racing.
+            </p>
+
+            <div class="flex items-center gap-4 text-rally-mint text-base">
+                <a href="#" class="hover:scale-110 transition-transform"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:scale-110 transition-transform"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="hover:scale-110 transition-transform"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Nav Móvil
+        function toggleMobileNav() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Lógica del Simulador de Pacenotes
+        const pacenoteData = {
+            izq3: {
+                badge: '3',
+                title: 'IZQUIERDA 3 CORRESPONDE',
+                desc: 'Curva de ángulo medio-cerrado en 3ª marcha. "Corresponde" indica que la curva mantiene su radio constante sin engañar.'
+            },
+            der6: {
+                badge: '6',
+                title: 'DERECHA 6 A FONDO',
+                text: 'Curva veloz en 6ª marcha. El auto entra a máxima velocidad sin levantar el pie del acelerador.',
+                desc: 'Curva veloz en 6ª marcha. El auto entra a máxima velocidad sin levantar el pie del acelerador.'
+            },
+            salto: {
+                badge: 'S',
+                title: 'SALTO POR CENTRO',
+                desc: 'Cresta o rasante a alta velocidad donde el auto despega por completo las 4 ruedas del suelo. Mantener volante recto.'
+            },
+            horquilla: {
+                badge: 'H',
+                title: 'HORQUILLA DERECHA OJO',
+                desc: 'Giro cerrado de 180 grados en 1ª marcha. Uso obligatorio de freno de mano hidráulico para colocar la trasera.'
+            }
+        };
+
+        function playPacenote(key) {
+            const data = pacenoteData[key];
+            document.getElementById('sim-badge').innerHTML = `<span class="unskew">${data.badge}</span>`;
+            document.getElementById('sim-title').textContent = data.title;
+            document.getElementById('sim-desc').textContent = data.desc;
+
+            // Actualizar botones
+            document.querySelectorAll('.pace-btn').forEach(btn => {
+                if (btn.id === `pace-${key}`) {
+                    btn.className = 'pace-btn p-3 rounded-xl bg-rally-mint text-rally-deep font-racing text-xs text-center border-2 border-rally-mint hover:scale-105 transition-all';
+                } else {
+                    btn.className = 'pace-btn p-3 rounded-xl bg-rally-card text-white hover:border-rally-mint font-racing text-xs text-center border border-rally-border hover:scale-105 transition-all';
+                }
+            });
+        }
+
+        // Lógica del Selector de Terrenos
+        const terrainData = {
+            gravel: {
+                badge: 'TRACCIÓN: 65%',
+                tyre: 'NEUMÁTICOS: TACO PROFUNDO',
+                title: 'GRAVILLA Y RUTAS FORESTALES',
+                desc: 'Es el terreno rey del campeonato chileno. Los tramos en el Biobío y Curicó exigen conducir de lado, aprovechando la tracción a las cuatro ruedas para catapultar el auto a la salida de cada curva.',
+                susp: 'Alta y suave (Recorrido largo)',
+                strat: 'Derrape controlado con tracción 4WD'
+            },
+            tarmac: {
+                badge: 'TRACCIÓN: 95%',
+                tyre: 'NEUMÁTICOS: SLICKS LISOS',
+                title: 'ASFALTO Y PAVIMENTO',
+                desc: 'Trazadas quirúrgicas, velocidad punta elevada y frenadas tardías. La menor pérdida de tracción se paga en segundos de penalización.',
+                susp: 'Baja y rígida (Anti-balanceo)',
+                strat: 'Línea de carrera limpia y precisa'
+            },
+            mud: {
+                badge: 'TRACCIÓN: 40%',
+                tyre: 'NEUMÁTICOS: TACO ABIERTO MUD',
+                title: 'BARRO Y LLUVIA EXTREMA',
+                desc: 'Condición impredecible común en los bosques del sur. Requiere tacto suave en el acelerador para evitar patinaje de ruedas.',
+                susp: 'Media-suave para evacuar barro',
+                strat: 'Buscar huella seca y prevenir aquaplaning'
+            },
+            snow: {
+                badge: 'TRACCIÓN: 30%',
+                tyre: 'NEUMÁTICOS: CON CLAVOS (STUDS)',
+                title: 'NIEVE Y HIELO PATAGÓNICO',
+                desc: 'Caminos congelados en fechas de invierno. Los clavos de tungsteno en los neumáticos penetran el hielo para garantizar agarre.',
+                susp: 'Suave para máxima transferencia de peso',
+                strat: 'Apoyo en paredes de nieve (Snowbanks)'
+            }
+        };
+
+        function setTerrain(key) {
+            const data = terrainData[key];
+            document.getElementById('terrain-badge').innerHTML = `<span class="unskew">${data.badge}</span>`;
+            document.getElementById('terrain-tyre').textContent = data.tyre;
+            document.getElementById('terrain-title').textContent = data.title;
+            document.getElementById('terrain-desc').textContent = data.desc;
+            document.getElementById('terrain-susp').textContent = data.susp;
+            document.getElementById('terrain-strat').textContent = data.strat;
+
+            // Actualizar botones
+            document.querySelectorAll('.terrain-btn').forEach(btn => {
+                if (btn.id === `btn-${key}`) {
+                    btn.className = 'terrain-btn px-6 py-3 rounded-xl font-racing text-xs bg-rally-mint text-rally-deep glow-mint-sm skew-tag';
+                } else {
+                    btn.className = 'terrain-btn px-6 py-3 rounded-xl font-racing text-xs bg-rally-card text-white border border-rally-border hover:border-rally-mint skew-tag';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
